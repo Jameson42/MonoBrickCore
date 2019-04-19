@@ -8,7 +8,7 @@ namespace MonoBrick.NXT
 	/// <summary>
 	/// NXT command types
 	/// </summary>
-	public enum CommandType{ 
+	public enum CommandType : byte{ 
 		/// <summary>
 		/// Direct LEGO command.
 		/// </summary>
@@ -30,8 +30,7 @@ namespace MonoBrick.NXT
 	/// <summary>
 	/// NXT and tunnel commands
 	/// </summary>
-	public enum CommandByte{	
-		#pragma warning disable 
+	public enum CommandByte : byte{	
 		GetTunnelCommands = 40, GetTunnelRTSPSettings = 0x41, StartTunnelRTSP = 0x42, TunnelSpeak = 0x43, GetTunnelGPSPosition = 0x44,//these are tunnel commands						
 
 		OpenRead = 0x80, OpenWrite = 0x81,Read = 0x82, Write = 0x83, 
@@ -47,8 +46,6 @@ namespace MonoBrick.NXT
 		GetBatteryLevel = 0x0b, StopSoundPlayback = 0x0c, KeepAlive = 0x0d,
 		LsGetStatus = 0x0e, LsWrite = 0x0f, LsRead = 0x10,GetCurrentProgramName = 0x11,
 		MessageRead = 0x13
-		#pragma warning restore
-
 	};
 
 

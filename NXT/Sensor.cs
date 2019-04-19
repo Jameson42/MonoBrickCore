@@ -10,30 +10,24 @@ namespace MonoBrick.NXT
     /// Sensor ports
     /// </summary>
     public enum SensorPort  {
-		#pragma warning disable 
 		In1 = 0, In2 = 1, In3 = 2, In4 = 3 
-		#pragma warning restore
 	};
     
 	/// <summary>
 	/// Sensor types
 	/// </summary>
-	public enum SensorType  {
-		#pragma warning disable 
+	public enum SensorType : byte {
 		NoSensor = 0x00, Touch = 0x01, Temperature = 0x02, Reflection = 0x03, Angle = 0x04, LightActive = 0x05,
 		LightInactive = 0x06, SoundDB = 0x07, SoundDBA  = 0x08, Custom = 0x09,LowSpeed = 0x0A, LowSpeed9V = 0x0B,
 		HighSpeed = 0x0C, ColorFull = 0x0D, ColorRed = 0x0E, ColorGreen = 0x0F, ColorBlue = 0x10, ColorNone = 0x11,
 		ColorExit = 0x12
-		#pragma warning restore
 	};
 	/// <summary>
 	/// Sensor modes
 	/// </summary>
-	public enum SensorMode {
-		#pragma warning disable 
+	public enum SensorMode : byte {
 		Raw = 0x00, Bool = 0x20, Transition = 0x40, Period = 0x60, Percent = 0x80, 
 		Celsius = 0xA0, Fahrenheit = 0xc0, Angle = 0xe0
-		#pragma warning restore
 	};
     
     internal class SensorReadings{
@@ -348,20 +342,16 @@ namespace MonoBrick.NXT
 	/// Sensor modes when using a NXT 2.0 color sensor
 	/// </summary>
 	public enum ColorMode { 
-		#pragma warning disable 
 		Full = SensorType.ColorFull, Red = SensorType.ColorRed, Green = SensorType.ColorGreen,
 		Blue = SensorType.ColorBlue, None = SensorType.ColorNone
-		#pragma warning restore
 	};
 
 	/// <summary>
 	/// Colors that can be read from the  NXT 2.0 color sensor
 	/// </summary>
-	public enum Color { 
-		#pragma warning disable 
+	public enum Color : byte { 
 		Black = 0x01, Blue = 0x02, Green = 0x03, 
 		Yellow = 0x04, Red = 0x05, White = 0x06
-		#pragma warning restore
 	};
 
 	/// <summary>
@@ -484,9 +474,7 @@ namespace MonoBrick.NXT
     /// Sensor modes when using a light sensor
     /// </summary>
     public enum LightMode { 
-		#pragma warning disable 
 		Off = SensorType.LightInactive, On = SensorType.LightActive
-		#pragma warning restore
 	};
     
 	/// <summary>

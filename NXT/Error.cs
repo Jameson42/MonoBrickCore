@@ -6,10 +6,8 @@ namespace MonoBrick.NXT
 	/// <summary>
     /// Error coes from the NXT brick
     /// </summary>
-	public enum BrickError
+	public enum BrickError : byte
 	{
-
-		#pragma warning disable 
 		WrongNumberOfBytes = 0x78, UnknownErrorCode = 0x79, I2CTimeOut = 0x80, NoMoreHandles = 0x81, NoSpace = 0x82, NoMoreFiles = 0x83, 
 		EndOfFileExpected = 0x84, EndOfFile = 0x85, NotALinearFile = 0x86, FileNotFound = 0x87, 
 		HandleAlreadyClosed = 0x88, NolinearSpace = 0x89, UndefinedFileError = 0x8a, FileBussy = 0x8b, 
@@ -19,7 +17,6 @@ namespace MonoBrick.NXT
 		InsanePacket = 0xbf,DataOutOfRange = 0xc0, CommunicationBusError = 0xdd, BufferFull = 0xde, 
 		InvalidChannel = 0xdf, ChannelBusy = 0xe0, NoActiveProgram = 0xec, IllegalSize = 0xed, 
 		InvalidMailboxQueue = 0xee, InvalidField = 0xef, BadIO = 0xf0, OutOfMemory = 0xfb, BadArguments = 0xff
-		#pragma warning restore
 	};
 	
 	

@@ -7,19 +7,15 @@ namespace MonoBrick.EV3
 		/// Output bitfeild
 		/// </summary>
 		[Flags]
-		public enum OutputBitfield  {
-			#pragma warning disable
+		public enum OutputBitfield : byte {
 			OutA = 0x01, OutB = 0x02, OutC = 0x04, OutD = 0x08
-			#pragma warning restore
 		};
 		
 		/// <summary>
 		/// Motor ports
 		/// </summary>
-		public enum MotorPort{
-			#pragma warning disable
+		public enum MotorPort : byte{
 			OutA = 0x00, OutB = 0x01, OutC = 0x02, OutD = 0x03
-			#pragma warning restore
 		};
 		
 		
@@ -27,9 +23,7 @@ namespace MonoBrick.EV3
 		/// Polarity of the motor
 		/// </summary>
 		public enum Polarity{
-			#pragma warning disable
 			Backward = -1, Forward = 1, OppositeDirection = 0
-			#pragma warning restore
 		};
 		
 		/// <summary>

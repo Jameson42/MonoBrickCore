@@ -8,7 +8,7 @@ namespace MonoBrick.NXT
 	/// </summary>
 	public class McMotor : Motor
 	{
-		private enum MotorControlMode{
+		private enum MotorControlMode : byte {
 			HoldBrake = 0x01, SpeedRegulation = 0x02, SmoothStart = 0x04
 		}
 
@@ -187,7 +187,7 @@ namespace MonoBrick.NXT
 	/// </summary>
 	public class McSyncMotor
 	{
-		private enum MotorControlMode{
+		private enum MotorControlMode : byte {
 			HoldBrake = 0x01, SpeedRegulation = 0x02, SmoothStart = 0x04
 		}
 

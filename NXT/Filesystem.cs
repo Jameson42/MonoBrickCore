@@ -8,7 +8,7 @@ namespace MonoBrick.NXT
 	/// <summary>
 	/// File mode
 	/// </summary>
-	public enum FileMode  {
+	public enum FileMode : byte {
 
 		/// <summary>
 		/// File is fragmented

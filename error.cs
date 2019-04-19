@@ -6,19 +6,15 @@ namespace MonoBrick
 	/// <summary>
 	/// Tunnel error codes
 	/// </summary>
-	public enum TunnelError {
-		#pragma warning disable 
+	public enum TunnelError : byte {
 		UnsupportedCommand = 0x21, ErrorExecuting = 0x22
-		#pragma warning restore
 	};
 
 	/// <summary>
 	/// Connection error codes
 	/// </summary>
-	public enum ConnectionError {
-		#pragma warning disable 
+	public enum ConnectionError : byte {
 		OpenError = 0x30, WriteError = 0x31, ReadError = 0x32, NoReply = 0x33
-		#pragma warning restore
 	};
 
     internal enum ErrorType 		{Connection = 1, Brick = 2, NoError = 3, Tunnel = 4}

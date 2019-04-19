@@ -5,13 +5,11 @@ namespace MonoBrick.EV3
 	/// <summary>
     /// Error coes from the EV3 brick
     /// </summary>
-	public enum BrickError
+	public enum BrickError : byte
 	{
-		#pragma warning disable 
 		  UnknownHandle = 0x01, HandleNotReady = 0x02, CorruptFile = 0x03, NoHandlesAvailable = 0x04,
 		  NoPermissions = 0x05, IllegalPath = 0x06, FileExits = 0x07, EndOfFile = 0x08,
 		  SizeError = 0x09, UnknownError = 0x0a, WrongNumberOfBytes = 0x40, WrongSequenceNumber = 0x41
-		#pragma warning restore
 	};
 
 	/// <summary>

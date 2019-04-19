@@ -6,36 +6,28 @@ namespace MonoBrick.NXT
 	/// Motor ports
 	/// </summary>
 	public enum MotorPort  {
-		#pragma warning disable
 		OutA = 0, OutB = 1, OutC = 2
-		#pragma warning restore
 	};
 	
 	/// <summary>
 	/// Motor mode
 	/// </summary>
-	[Flags]	public enum MotorMode {
-		#pragma warning disable
+	[Flags]	public enum MotorMode : byte {
 		On = 0x01, Break = 0x02, Regulated = 0x04
-		#pragma warning restore
 	};
  	
 	/// <summary>
 	/// Motor regulation
 	/// </summary>
-	public enum MotorRegulation {
-		#pragma warning disable
+	public enum MotorRegulation : byte {
 		Idle = 0x00, Speed = 0x01, Sync = 0x02
-		#pragma warning restore
 	};
 
 	/// <summary>
 	/// Motor run state
 	/// </summary>
-	public enum MotorRunState {
-		#pragma warning disable
+	public enum MotorRunState : byte {
 		Idle = 0x00, RampUp = 0x10, Running = 0x20, RampDown = 0x40
-		#pragma warning restore
 	};
 
     /// <summary>

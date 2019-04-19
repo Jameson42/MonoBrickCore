@@ -11,9 +11,7 @@ namespace MonoBrick.NXT
 	/// Sensor mode when using a temperature sensor
 	/// </summary>
 	public enum I2CMode { 
-		#pragma warning disable 
 		LowSpeed = SensorType.LowSpeed, LowSpeed9V = SensorType.LowSpeed9V 
-		#pragma warning restore
 	};
 
 	/// <summary>
@@ -403,7 +401,7 @@ namespace MonoBrick.NXT
 		CentiInch = 2 
 	};
     
-	internal enum SonarCommand { Off = 00, SingleShot = 0x01, Continuous = 0x02, EventCapture = 0x03, RequestWarmReset = 0x04 };
+	internal enum SonarCommand : byte { Off = 00, SingleShot = 0x01, Continuous = 0x02, EventCapture = 0x03, RequestWarmReset = 0x04 };
     internal enum SonarRegister : byte
     {
         Version = 0x00, ProductId = 0x08, SensorType = 0x10, FactoryZeroValue = 0x11, FactoryScaleFactor = 0x12,
@@ -954,10 +952,8 @@ namespace MonoBrick.NXT
 	/// <summary>
 	/// ADC port for use with the PCF8591 I2C chip
 	/// </summary>
-    public enum ADCPort {
-		#pragma warning disable 
+    public enum ADCPort : byte {
 		Port0 =0x00, Port1 = 0x01, Port2 = 0x02, Port3 = 0x03
-		#pragma warning restore
 	}
 
 	/// <summary>

@@ -6,9 +6,7 @@ namespace MonoBrick
 	/// File types
 	/// </summary>
 	public enum FileType {
-		#pragma warning disable 
 		Firmware, Program, OnBrickProgram, TryMeProgram, Sound, Graphics, Datalog, Unknown
-		#pragma warning restore 
 	}
 	/// <summary>
 	/// Interface for a file placed on the brick

@@ -10,10 +10,8 @@ namespace MonoBrick.EV3
 	/// </summary>
 	[Flags]
 	public enum ParameterFormat : byte  { 
-		#pragma warning disable 
 		Short = 0x00, 
 		Long = 0x80 
-		#pragma warning restore
 	}
 	
 	/// <summary>
@@ -21,10 +19,8 @@ namespace MonoBrick.EV3
 	/// </summary>
 	[Flags] 
 	public enum ParameterType : byte  { 
-		#pragma warning disable 
 		Constant = 0x00, 
 		Variable = 0x40  
-		#pragma warning restore
 	}
 	
 	/// <summary>
@@ -32,10 +28,8 @@ namespace MonoBrick.EV3
 	/// </summary>
 	[Flags] 
 	enum ShortSign : byte  { 
-		#pragma warning disable 
 		Positive = 0x00, 
 		Negative = 0x20
-		#pragma warning restore
 	}
 	
 	
@@ -44,10 +38,8 @@ namespace MonoBrick.EV3
 	/// </summary>
 	[Flags] 
 	public enum ConstantParameterType : byte  { 
-		#pragma warning disable 
 		Value = 0x00, 
 		Label = 0x20  
-		#pragma warning restore
 	}
 	
 	/// <summary>
@@ -55,10 +47,8 @@ namespace MonoBrick.EV3
 	/// </summary>
 	[Flags] 
 	public enum VariableScope : byte  { 
-		#pragma warning disable 
 		Local = 0x00, 
-		Global = 0x20,
-		#pragma warning restore
+		Global = 0x20
 	}
 	
 	/// <summary>
@@ -66,10 +56,8 @@ namespace MonoBrick.EV3
 	/// </summary>
 	[Flags]
 	public enum VariableType : byte  { 
-		#pragma warning disable 
 		Value = 0x00,
 		Handle = 0x10
-		#pragma warning restore
 	}
 	
 	/// <summary>
@@ -77,13 +65,11 @@ namespace MonoBrick.EV3
 	/// </summary>
 	[Flags]
 	enum FollowType : byte  { 
-		#pragma warning disable 
 		OneByte		= 0x01, 
 		TwoBytes 	= 0x02,
 		FourBytes 	= 0x03,
 		TerminatedString 	= 0x00,
 		TerminatedString2 = 0x04
-		#pragma warning restore
 	}
 	
 	/// <summary>
@@ -152,7 +138,7 @@ namespace MonoBrick.EV3
 	/// <summary>
 	/// EV3 command type.
 	/// </summary>
-	public enum CommandType{
+	public enum CommandType : byte{
 		/// <summary>
 		/// Direct command
 		/// </summary>
@@ -187,8 +173,7 @@ namespace MonoBrick.EV3
 	/// <summary>
 	/// EV3 system commands
 	/// </summary>
-	public enum SystemCommand {
-		#pragma warning disable 
+	public enum SystemCommand : byte{
 		None = 0x00,
 		BeginDownload = 0x92,
 		ContinueDownload = 0x93,
@@ -205,14 +190,12 @@ namespace MonoBrick.EV3
 		WriteMailbox = 0x9e,
 		BluetoothPin = 0x9f,
 		EnterFirmwareUpdate = 0xa0
-		#pragma warning restore
 	}
 
 	/// <summary>
 	/// EV3 byte codes
 	/// </summary>
-	public enum ByteCodes{
-		#pragma warning disable 
+	public enum ByteCodes : byte{
 		//VM
 		ProgramStop	= 0x02,
 		ProgramStart = 0x03,
@@ -279,9 +262,7 @@ namespace MonoBrick.EV3
 		MailboxRead = 0xDA,
 		MailboxTest = 0xDB,
 		MailboxReady = 0xDC,
-		MailboxClose = 0xDD,
-
-		#pragma warning restore
+		MailboxClose = 0xDD
 	}
 	
 	
@@ -289,20 +270,17 @@ namespace MonoBrick.EV3
 	/// EV3 sound sub codes
 	/// </summary>
 	public enum SoundSubCodes{
-		 #pragma warning disable 
 		 Break = 0,
   		 Tone = 1,
   		 Play = 2,
   		 Repeat = 3,
   		 Service = 4
-		 #pragma warning restore
 	}
 	
 	/// <summary>
 	/// EV3 input sub codes.
 	/// </summary>
 	public enum InputSubCodes{
-		#pragma warning disable 
 		GetFormat = 2,
   		CalMinMax = 3,
   		CalDefault = 4,
@@ -326,14 +304,12 @@ namespace MonoBrick.EV3
 		ReadySI = 29,
 		GetMinMax = 30,
 		GetBumps = 31
-  		#pragma warning disable
   	}
 
 	/// <summary>
 	/// EV3 file sub codes.
 	/// </summary>
 	public enum FileSubCodes{
-		#pragma warning disable
 		OpenAppend = 0,
 		OpenRead = 1,
 		OpenWrite = 2,
@@ -365,15 +341,13 @@ namespace MonoBrick.EV3
 		ReadBytes = 28,
 		WriteBytes = 29,
 		Remove = 30,
-		Move = 31,
-		#pragma warning restore
+		Move = 31
 	}
 
 	/// <summary>
 	/// Memory sub codes
 	/// </summary>
 	public enum MemorySubCodes{
-		#pragma warning disable
 		  Delete = 0,
 		  Create8 = 1,
 		  Create16 = 2,
@@ -386,8 +360,7 @@ namespace MonoBrick.EV3
 		  Init16 = 9,
 		  Init32 = 10,
 		  InitF = 11, 
-		  Size = 12,		
-		  #pragma warning restore
+		  Size = 12
 	}
 
 

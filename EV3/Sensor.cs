@@ -7,28 +7,22 @@ namespace MonoBrick.EV3
 	    /// Sensor ports
 	    /// </summary>
 	    public enum SensorPort  {
-			#pragma warning disable 
 			In1 = 0, In2 = 1, In3 = 2, In4 = 3 
-			#pragma warning restore
 		};
 		
 		/// <summary>
 		/// Device types
 		/// </summary>
 		public enum SensorType  {
-			#pragma warning disable 
 			Unknown = 0, NXTTouch = 1, NXTLight = 2, NXTSound = 3, NXTColor = 4, NXTUltraSonic = 5, NXTTemperature = 6, LMotor = 7 , MMotor = 8,
 			Touch = 16, Test = 21, I2C = 100, NXTTest = 101, Color = 29, UltraSonic = 30, Gyro = 32, IR = 33,  None = 126 
-			#pragma warning restore
 		};
 		
 		/// <summary>
 		/// Sensor modes
 		/// </summary>
 		public enum SensorMode {
-			#pragma warning disable 
 			Mode0 = 0, Mode1 = 1, Mode2 = 2, Mode3 = 3, Mode4 = 4, Mode5 = 5, Mode6 = 6	
-			#pragma warning restore
 		};
 		
 		/// <summary>
@@ -675,10 +669,8 @@ namespace MonoBrick.EV3
 	/// Colors that can be read from the  EV3 color sensor
 	/// </summary>
 	public enum Color{ 
-		#pragma warning disable 
 		None = 0, Black = 1, Blue = 2, Green = 3, 
 		Yellow = 4, Red = 5, White = 6, Brown = 7
-		#pragma warning restore
 	};
 	
 	/// <summary>
@@ -972,7 +964,7 @@ namespace MonoBrick.EV3
 		/// <summary>
 		/// Use the light sensor to detect the light intensity
 		/// </summary>
-		Ambient  = SensorMode.Mode1,
+		Ambient  = SensorMode.Mode1
 	};
 	
 	/// <summary>
@@ -1148,7 +1140,6 @@ namespace MonoBrick.EV3
 	/// Sensor modes when using a ultrasonic sensor
 	/// </summary>
 	public enum UltrasonicMode { 
-		#pragma warning disable 
 			/// <summary>
 			/// Result will be in centimeter
 			/// </summary>
@@ -1162,7 +1153,6 @@ namespace MonoBrick.EV3
 			/// Sensor is in listen mode
 			/// </summary>
 			Listen = SensorMode.Mode2
-		#pragma warning restore
 	};
 	
 	/// <summary>
@@ -1230,8 +1220,6 @@ namespace MonoBrick.EV3
 	/// Sensor modes when using a Temperature sensor
 	/// </summary>
 	public enum TemperatureMode { 
-		#pragma warning disable 
-
 			/// <summary>
 			/// Result will be in celcius
 			/// </summary>
@@ -1241,8 +1229,7 @@ namespace MonoBrick.EV3
 			/// <summary>
 			/// Result will be in fahrenheit 
 			/// </summary>
-			Fahrenheit = SensorMode.Mode1,
-		#pragma warning restore
+			Fahrenheit = SensorMode.Mode1
 	};
 	
 	/// <summary>
@@ -1308,7 +1295,6 @@ namespace MonoBrick.EV3
 	/// Sensor modes when using a Gyro sensor
 	/// </summary>
 	public enum GyroMode { 
-		#pragma warning disable 
 			/// <summary>
 			/// Result will be in degrees
 			/// </summary>
@@ -1316,8 +1302,7 @@ namespace MonoBrick.EV3
 			/// <summary>
 			/// Result will be in degrees per second
 			/// </summary>
-			AngularVelocity = SensorMode.Mode1,
-		#pragma warning restore
+			AngularVelocity = SensorMode.Mode1
 	};
 	
 	/// <summary>
