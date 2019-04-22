@@ -27,7 +27,7 @@ steps:
   inputs:
     command: 'pack'
 
-- task: PublishPipelineArtifact@0
+- task: DotNetCoreCLI@2
   inputs:
-    artifactName: 'nuget'
-    targetPath: '$(Build.ArtifactStagingDirectory)/*.nupkg'
+    command: 'push'
+    feedPublish: 'MonoBrickCore'
