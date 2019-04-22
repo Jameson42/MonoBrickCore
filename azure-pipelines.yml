@@ -18,8 +18,16 @@ steps:
 
 - task: DotNetCoreCLI@2
   inputs:
-    command: 'pack'
+    command: 'publish'
+    publishWebProjects: false
+    projects: '**/*.csproj'
+    arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
 
 - task: DotNetCoreCLI@2
   inputs:
-    command: 'publish'
+    command: 'pack'
+
+- task: PublishPipelineArtifact@0
+  inputs:
+    artifactName: 'nuget'
+    targetPath: '$(Build.ArtifactStagingDirectory)/*.nupkg'
