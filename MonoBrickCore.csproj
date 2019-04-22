@@ -2,6 +2,17 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>MonoBrickCore</PackageId>
+    <Title>MonoBrick Core</Title>
+    <Version>1.0.1</Version>
+    <Authors>Jameson Gagnepain;Anders Søborg</Authors>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/Jameson42/MonoBrickCore</RepositoryUrl>
+    <Description>
+    DotNet Core fork of MonoBrick Communication Library with cross-platform support. 
+    The original library is available at http://www.monobrick.dk/software/monobrick/.
+    </Description>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
