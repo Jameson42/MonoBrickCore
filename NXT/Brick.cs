@@ -478,11 +478,12 @@ namespace MonoBrick.NXT
 		/// Get the name of the program that is curently running
 		/// </summary>
 		/// <returns>
-		/// The running program.
+		/// The running program or null if no program running
 		/// </returns>
 		public string GetRunningProgram(){
 			var reply = connection.SendAndReceive(new Command(CommandType.DirecCommand, CommandByte.GetCurrentProgramName,true));
-			Error.CheckForError(reply,23);
+			if (Error.CheckForError(reply,23, false) != null)
+				return null;
 			return reply.GetString(3,19);
 		}
 

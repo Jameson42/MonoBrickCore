@@ -179,7 +179,47 @@ namespace MonoBrick.NXT
 		public delegate void CleanUpMethod();
 
 		/// <summary>
-		/// Throws an monobrick related exception based on errorCode and errorType
+		/// Creates a monobrick related exception based on errorCode and errorType
+		/// </summary>
+		/// <param name='errorCode'>
+		/// Error code
+		/// </param>
+		/// <param name='type'>
+		/// Error type
+		/// </param>
+		public static MonoBrickException ParseError(byte errorCode, ErrorType type)
+		{
+			if(type == ErrorType.Brick)
+			  	return new BrickException((BrickError)errorCode);
+            if(type ==  ErrorType.Connection)
+                return new ConnectionException((ConnectionError)errorCode);
+			if(type == ErrorType.Tunnel)
+				return new TunnelException((TunnelError)errorCode);
+			return null;
+		}
+		
+		/// <summary>
+		/// Creates a monobrick exception based on the Reply from the brick
+		/// </summary>
+		/// <param name='reply'>
+		/// Reply to base the exception on
+		/// </param>
+		public static MonoBrickException ParseError(Reply reply){
+			return ParseError(reply.ErrorCode, reply.ErrorType);
+		}
+
+		/// <summary>
+		/// Creates a monobrick exception based on the error code
+		/// </summary>
+		/// <param name='errorCode'>
+		/// Error code to base the exception on
+		/// </param>
+		public static MonoBrickException ParseError(byte errorCode){
+			return ParseError(errorCode, ToErrorType(ref errorCode));
+		}
+
+		/// <summary>
+		/// Throws a monobrick related exception based on errorCode and errorType
 		/// </summary>
 		/// <param name='errorCode'>
 		/// Error code
@@ -188,12 +228,7 @@ namespace MonoBrick.NXT
 		/// Error type
 		/// </param>
         protected static void ThrowException(byte errorCode, ErrorType type){
-			if(type == ErrorType.Brick)
-			  	throw new BrickException((BrickError)errorCode);
-            if(type ==  ErrorType.Connection)
-                throw new ConnectionException((ConnectionError)errorCode);
-			if(type == ErrorType.Tunnel)
-				throw new TunnelException((TunnelError)errorCode);
+			throw ParseError(errorCode, type);
 		}
 
 		/// <summary>
@@ -255,8 +290,8 @@ namespace MonoBrick.NXT
 		/// <param name='expectedLength'>
 		/// Expected reply length
 		/// </param>
-		public static void CheckForError(Reply reply, byte expectedLength){
-		   CheckForError(reply,expectedLength,null);
+		public static MonoBrickException CheckForError(Reply reply, byte expectedLength, bool throwException = true){
+		   return CheckForError(reply,expectedLength,null, throwException);
 		}
 
 		/// <summary>
@@ -271,19 +306,24 @@ namespace MonoBrick.NXT
 		/// <param name='cleanUp'>
 		/// Clean up method called before the exception is thrown
 		/// </param>
-		public static void CheckForError(Reply reply, byte expectedLength, CleanUpMethod cleanUp){
+		public static MonoBrickException CheckForError(Reply reply, byte expectedLength, CleanUpMethod cleanUp, bool throwException = true){
 			if(reply.HasError){
 				if(cleanUp!= null){
 					cleanUp();
 				}
-				ThrowException(reply);
+				if (throwException)
+					ThrowException(reply);
+				else return ParseError(reply);
 			}
 			if(reply.Length != expectedLength){
 				if(cleanUp!= null){
 					cleanUp();
 				}
-				throw new BrickException(BrickError.WrongNumberOfBytes);
+				if (throwException)
+					throw new BrickException(BrickError.WrongNumberOfBytes);
+				else return new BrickException(BrickError.WrongNumberOfBytes);
 			}
+			return null;
 		}
 	}
 		

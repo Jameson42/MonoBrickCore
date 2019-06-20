@@ -121,7 +121,8 @@ namespace MonoBrick.NXT
 			command.Append(removeMessage);
 			connection.Send(command);
 			var reply = connection.Receive();
-			Error.CheckForError(reply,64);
+			if (Error.CheckForError(reply,64, false) != null)
+				return new byte[0];
 			byte size = reply[4];
 			byte[] returnValue = new byte[size];
 			for(int i = 0; i < size; i++){
