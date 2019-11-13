@@ -1,9 +1,8 @@
 using System;
-using MonoBrick;
 
 namespace MonoBrick.NXT
 {
-	    /// <summary>
+    /// <summary>
     /// <para>Used as argument for the MotorControl methods.</para>
     /// </summary>
     public enum MotorControlMotorPort
@@ -12,61 +11,54 @@ namespace MonoBrick.NXT
         /// <para>Motor port A.</para>
         /// </summary>
         PortA = 0,
-
         /// <summary>
         /// <para>Motor port B.</para>
         /// </summary>
         PortB = 1,
-
         /// <summary>
         /// <para>Motor port C.</para>
         /// </summary>
         PortC = 2,
-
         /// <summary>
         /// <para>Motor ports A and B (synced).</para>
         /// </summary>
         PortsAB = 3,
-
         /// <summary>
         /// <para>Motor ports A and C (synced).</para>
         /// </summary>
         PortsAC = 4,
-
         /// <summary>
         /// <para>Motor ports B and C (synced).</para>
         /// </summary>
         PortsBC = 5,
-
         /// <summary>
         /// <para>Motor ports A, B and C (synced).</para>
         /// </summary>
         PortsABC = 6
     }
 
-	/// <summary>
-	/// Motor control proxy.
-	/// </summary>
-	public class MotorControlProxy
-	{
+    /// <summary>
+    /// Motor control proxy.
+    /// </summary>
+    public class MotorControlProxy
+    {
+        private readonly Box pc_inbox = Box.Box0;
+        private readonly Box pc_outbox = Box.Box1;
 
-		private Box pc_inbox = Box.Box0;
-		private Box pc_outbox = Box.Box1;
+        private readonly Mailbox mailbox;
 
-		private Mailbox mailbox;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MotorControlProxy"/> class.
+        /// </summary>
+        /// <param name='mailbox'>
+        /// Mailbox.
+        /// </param>
+        public MotorControlProxy(Mailbox mailbox)
+        {
+            this.mailbox = mailbox;
+        }
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="MonoBrick.NXT.MotorControlProxy"/> class.
-		/// </summary>
-		/// <param name='mailbox'>
-		/// Mailbox.
-		/// </param>
-		public MotorControlProxy (Mailbox mailbox)
-		{
-			this.mailbox = mailbox;
-		}
-
-		        #region The MotorControl-commands
+        #region The MotorControl-commands
 
         private enum MotorControlCommandType
         {
@@ -89,9 +81,9 @@ namespace MonoBrick.NXT
         /// <param name="tachoLimit">Tacho limit - 6 chars from "0" to "999999". "0" means driving forever, no limit (better not use it, see also CLASSIC_MOTORCMD); everything else: drive to specific position.</param>
         /// <param name="mode">Mode: 1 char, bitfield. Compose bits to integer (by OR or +), convert to char - Start with 0x00 (000); Set 0x01 (001) / add 1: Set for HoldBrake (keeps active brake on after end of movement); Set 0x02 (010) / add 2: Set to enable SpeedRegulation; Set 0x04 (100) / add 4: Set to enable SmoothStart.</param>
         /// <seealso cref="SendClassicMotorCommand"/>
-        public void SendControlledMotorCommand( MotorControlMotorPort port, string power, string tachoLimit, char mode)
+        public void SendControlledMotorCommand(MotorControlMotorPort port, string power, string tachoLimit, char mode)
         {
-			Console.WriteLine ("Power = " + power + ", tachoLimit = " + tachoLimit);
+            Console.WriteLine("Power = " + power + ", tachoLimit = " + tachoLimit);
             string messageData = string.Format("{0}{1}{2}{3}{4}",
                 (byte)MotorControlCommandType.PROTO_CONTROLLED_MOTORCMD,
                 (byte)port,
@@ -99,7 +91,7 @@ namespace MonoBrick.NXT
                 tachoLimit,
                 mode
                 );
-			mailbox.Send(messageData, pc_outbox);
+            mailbox.Send(messageData, pc_outbox);
         }
 
         /// <summary>
@@ -110,13 +102,13 @@ namespace MonoBrick.NXT
         /// <para>This command can be used to reset the NXT's internal error correction mechanism (i.e. reset the TachoCount property). The same thing can be achieved using the IO map commands (with the output module).</para>
         /// </remarks>
         /// <param name="port">Motor port(s)</param>
-        public void ResetErrorCorrection( MotorControlMotorPort port)
+        public void ResetErrorCorrection(MotorControlMotorPort port)
         {
             string messageData = string.Format("{0}{1}",
                 (byte)MotorControlCommandType.PROTO_RESET_ERROR_CORRECTION,
                 (byte)port
                 );
-			mailbox.Send(messageData, pc_outbox);
+            mailbox.Send(messageData, pc_outbox);
         }
 
         /// <summary>
@@ -134,13 +126,13 @@ namespace MonoBrick.NXT
                 (byte)MotorControlCommandType.PROTO_ISMOTORREADY,
                 (byte)port
                 );
-			mailbox.Send(messageData, pc_outbox);
+            mailbox.Send(messageData, pc_outbox);
 
             while (true)
             {
                 System.Threading.Thread.Sleep(10);
 
-				string reply = mailbox.ReadString(pc_inbox, true);
+                string reply = mailbox.ReadString(pc_inbox, true);
                 if (reply[0] != messageData[1]) continue;
                 return (reply[1] == '1');
             }
@@ -173,10 +165,9 @@ namespace MonoBrick.NXT
                 tachoLimit,
                 speedRegulation
                 );
-			mailbox.Send(messageData, pc_outbox);
+            mailbox.Send(messageData, pc_outbox);
         }
-
         #endregion
-	}
+    }
 }
 

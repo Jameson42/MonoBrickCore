@@ -8,14 +8,14 @@ namespace MonoBrick
 	/// </summary>
 	public interface IMotor
 	{
-		
-		/// <summary>
-		/// Gets or sets a value indicating whether this <see cref="MonoBrick.NXT.Motor"/> run in reverse direction
-		/// </summary>
-		/// <value>
-		/// <c>true</c> if reverse; otherwise, <c>false</c>.
-		/// </value>
-		bool Reverse {get; set;}
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="NXT.Motor"/> run in reverse direction
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if reverse; otherwise, <c>false</c>.
+        /// </value>
+        bool Reverse {get; set;}
 
 		/// <summary>
 		/// Move the motor

@@ -46,7 +46,7 @@ namespace MonoBrick.NXT
 		/// If set to <c>true</c> the brick will send a reply
 		/// </param>
 		public void Send(byte[] data, Box inbox, bool reply){
-			var command = new Command(CommandType.DirecCommand, CommandByte.MessageWrite, reply);
+			var command = new Command(CommandType.DirectCommand, CommandByte.MessageWrite, reply);
 			if(data.Length > 57){
 				Array.Resize(ref data,57);
 			}
@@ -88,7 +88,7 @@ namespace MonoBrick.NXT
 		/// If set to <c>true</c> the brick will send a reply
 		/// </param>
 		public void Send(string s, Box inbox, bool reply){
-			var command = new Command(CommandType.DirecCommand, CommandByte.MessageWrite, reply);
+			var command = new Command(CommandType.DirectCommand, CommandByte.MessageWrite, reply);
 			if(s.Length > 57){
 				s.Remove(57);	
 			}
@@ -115,7 +115,7 @@ namespace MonoBrick.NXT
 		/// If set to <c>true</c> the message will be removed from the mailbox
 		/// </param>
 		public byte[] Read(Box mailbox, bool removeMessage){
-			var command = new Command(CommandType.DirecCommand, CommandByte.MessageRead, true);
+			var command = new Command(CommandType.DirectCommand, CommandByte.MessageRead, true);
 			command.Append((byte)((byte)mailbox + (byte)10));
 			command.Append((byte)((byte)mailbox + (byte)0));
 			command.Append(removeMessage);

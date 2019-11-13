@@ -23,11 +23,11 @@ namespace MonoBrick.NXT
 			get{ return mcProxy;}
 			set{ mcProxy = value;}
 		}
-        
-		/// <summary>
-		/// Initializes a new instance of the <see cref="MonoBrick.NXT.Motor"/> class.
-		/// </summary>
-		public McMotor() {}
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Motor"/> class.
+        /// </summary>
+        public McMotor() {}
         
 		/// <summary>
 		/// Move the motor to a relative position
@@ -202,11 +202,11 @@ namespace MonoBrick.NXT
 			get{ return mcProxy;}
 			set{ mcProxy = value;}
 		}
-        
-		/// <summary>
-		/// Initializes a new instance of the <see cref="MonoBrick.NXT.Motor"/> class.
-		/// </summary>
-		public McSyncMotor() {}
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Motor"/> class.
+        /// </summary>
+        public McSyncMotor() {}
         
 		/// <summary>
 		/// Move the motor to a relative position
