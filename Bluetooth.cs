@@ -12,24 +12,20 @@ namespace MonoBrick
         where TBrickReply : BrickReply, new()
 
     {
-        private SerialPort comPort = null;
-        private readonly string port;
+        private SerialPort serialPort = null;
+        private readonly string serialPortName;
         /// <summary>
         /// Initializes a new instance of the Bluetooth class.
         /// </summary>
-        /// <param name="comport">he serial port to use</param>
-        public Bluetooth(string comport)
+        public Bluetooth(string serialPortName)
         {
-            port = comport;
+            this.serialPortName = serialPortName;
             isConnected = false;
         }
 
         /// <summary>
         /// Send a command
         /// </summary>
-        /// <param name='command'>
-        /// The command to send
-        /// </param>
         public override void Send(TBrickCommand command)
         {
             ushort length = (ushort)command.Length;
@@ -40,7 +36,7 @@ namespace MonoBrick
             CommandWasSend(command);
             try
             {
-                comPort.Write(data, 0, data.Length);
+                serialPort.Write(data, 0, data.Length);
             }
             catch (Exception e)
             {
@@ -61,11 +57,11 @@ namespace MonoBrick
             try
             {
                 expectedlength = 2;
-                replyLength = comPort.Read(data, 0, 2);
+                replyLength = serialPort.Read(data, 0, 2);
                 expectedlength = (ushort)(0x0000 | data[0] | (data[1] << 2));
                 payload = new byte[expectedlength];
                 replyLength = 0;
-                replyLength = comPort.Read(payload, 0, expectedlength);
+                replyLength = serialPort.Read(payload, 0, expectedlength);
             }
             catch (TimeoutException tEx)
             {
@@ -103,10 +99,10 @@ namespace MonoBrick
         {
             try
             {
-                comPort = new SerialPort(port);
-                comPort.Open();
-                comPort.WriteTimeout = 5000;
-                comPort.ReadTimeout = 5000;
+                serialPort = new SerialPort(serialPortName);
+                serialPort.Open();
+                serialPort.WriteTimeout = 5000;
+                serialPort.ReadTimeout = 5000;
             }
             catch (Exception e)
             {
@@ -124,7 +120,7 @@ namespace MonoBrick
         {
             try
             {
-                comPort.Close();
+                serialPort.Close();
             }
             catch (Exception)
             {
@@ -136,14 +132,7 @@ namespace MonoBrick
         /// <summary>
         /// Gets a list of available serial ports
         /// </summary>
-        /// <returns>
-        /// A list of available serial ports
-        /// </returns>
-        public static string[] GetPortNames()
-        {
-            return SerialPort.GetPortNames();
-        }
-
+        public static string[] GetPortNames() => SerialPort.GetPortNames();
     }
 }
 

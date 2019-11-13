@@ -42,73 +42,46 @@ namespace MonoBrick.NXT
         /// <summary>
         /// Gets or sets the speed.
         /// </summary>
-        /// <value>
-        /// The speed.
-        /// </value>
         public sbyte Speed { get; set; }
 
         /// <summary>
         /// Gets or sets the mode.
         /// </summary>
-        /// <value>
-        /// The mode.
-        /// </value>
         public MotorMode Mode { get; set; }
 
         /// <summary>
         /// Gets or sets the regulation.
         /// </summary>
-        /// <value>
-        /// The regulation.
-        /// </value>
         public MotorRegulation Regulation { get; set; }
 
         /// <summary>
         /// Gets or sets the turn ratio.
         /// </summary>
-        /// <value>
-        /// The turn ratio.
-        /// </value>
         public sbyte TurnRatio { get; set; }
 
         /// <summary>
         /// Gets or sets the state of the run.
         /// </summary>
-        /// <value>
-        /// The state of the run.
-        /// </value>
         public MotorRunState RunState { get; set; }
 
         /// <summary>
         /// Gets or sets the tacho limit.
         /// </summary>
-        /// <value>
-        /// The tacho limit.
-        /// </value>
         public uint TachoLimit { get; set; }//Current limit on a movement in progres, if any
 
         /// <summary>
         /// Gets or sets the tacho count.
         /// </summary>
-        /// <value>
-        /// The tacho count.
-        /// </value>
         public int TachoCount { get; internal set; }//Internal count. Number of counts since last reset of motor
 
         /// <summary>
         /// Gets or sets the block tacho count.
         /// </summary>
-        /// <value>
-        /// The block tacho count.
-        /// </value>
         public int BlockTachoCount { get; internal set; } //Current position relative to last programmed movement
 
         /// <summary>
         /// Gets or sets the rotation count.
         /// </summary>
-        /// <value>
-        /// The rotation count.
-        /// </value>
         public int RotationCount { get; internal set; } //Current position relative to last reset of the rotation sensor for this
     }
 
@@ -148,10 +121,7 @@ namespace MonoBrick.NXT
         /// <param name='state'>
         /// Outputstate
         /// </param>
-        public void SetOutputState(OutputState state)
-        {
-            SetOutputState(state, false);
-        }
+        public void SetOutputState(OutputState state) => SetOutputState(state, false);
 
         /// <summary>
         /// Sets the output state of the motor
@@ -205,10 +175,7 @@ namespace MonoBrick.NXT
         /// <param name='speed'>
         /// Speed of the motor -100 to 100
         /// </param>
-        public void On(sbyte speed)
-        {
-            On(speed, false);
-        }
+        public void On(sbyte speed) => On(speed, false);
 
         /// <summary>
         /// Move the motor
@@ -219,10 +186,7 @@ namespace MonoBrick.NXT
         /// <param name='reply'>
         /// If set to <c>true</c> brick will send a reply
         /// </param>
-        public void On(sbyte speed, bool reply)
-        {
-            On(speed, 0, reply);
-        }
+        public void On(sbyte speed, bool reply) => On(speed, 0, reply);
 
         /// <summary>
         /// Move the motor to a relative position
@@ -233,10 +197,7 @@ namespace MonoBrick.NXT
         /// <param name='degrees'>
         /// The relative position of the motor
         /// </param>
-        public void On(sbyte speed, uint degrees)
-        {
-            On(speed, degrees, false);
-        }
+        public void On(sbyte speed, uint degrees) => On(speed, degrees, false);
 
         /// <summary>
         /// Move the motor to a relative position
@@ -284,10 +245,7 @@ namespace MonoBrick.NXT
         /// <summary>
         /// Brake the motor (is still on but does not move)
         /// </summary>
-        public void Brake()
-        {
-            Brake(false);
-        }
+        public void Brake() => Brake(false);
 
         /// <summary>
         /// Brake the motor (is still on but does not move)
@@ -312,10 +270,7 @@ namespace MonoBrick.NXT
         /// <summary>
         /// Turn the motor off
         /// </summary>
-        public void Off()
-        {
-            Off(false);
-        }
+        public void Off() => Off(false);
 
         /// <summary>
         /// Turn the motor off
@@ -363,10 +318,7 @@ namespace MonoBrick.NXT
             return motorOutput;
         }
 
-        private void ResetMotorPosition(bool relative)
-        {
-            ResetMotorPosition(relative, false);
-        }
+        private void ResetMotorPosition(bool relative) => ResetMotorPosition(relative, false);
 
         private void ResetMotorPosition(bool relative, bool reply)
         {
@@ -428,18 +380,12 @@ namespace MonoBrick.NXT
         /// <param name='position'>
         /// Absolute position
         /// </param>
-        public void MoveTo(byte speed, int position)
-        {
-            MoveTo(speed, position, false);
-        }
+        public void MoveTo(byte speed, int position) => MoveTo(speed, position, false);
 
         /// <summary>
         /// Resets the tacho
         /// </summary>
-        public void ResetTacho()
-        {
-            ResetTacho(false);
-        }
+        public void ResetTacho() => ResetTacho(false);
 
         /// <summary>
         /// Resets the tacho
@@ -459,10 +405,7 @@ namespace MonoBrick.NXT
         /// <returns>
         /// The tacho count
         /// </returns>
-        public int GetTachoCount()
-        {
-            return GetOutputState().RotationCount;
-        }
+        public int GetTachoCount() => GetOutputState().RotationCount;
 
         /// <summary>
         /// Determines whether this motor is running.
@@ -470,12 +413,7 @@ namespace MonoBrick.NXT
         /// <returns>
         /// <c>true</c> if this motor is running; otherwise, <c>false</c>.
         /// </returns>
-        public bool IsRunning()
-        {
-            if (GetOutputState().RunState == MotorRunState.Idle)
-                return false;
-            return true;
-        }
+        public bool IsRunning() => GetOutputState().RunState != MotorRunState.Idle;
     }
 
     /// <summary>

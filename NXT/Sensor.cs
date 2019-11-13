@@ -44,7 +44,6 @@ namespace MonoBrick.NXT
     /// </summary>
     public class Sensor : ISensor
     {
-
         /// <summary>
         /// The sensor port to use
         /// </summary>
@@ -74,7 +73,6 @@ namespace MonoBrick.NXT
             Mode = SensorMode.Raw;
             Type = SensorType.NoSensor;
         }
-
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Sensor"/> class.

@@ -2,7 +2,6 @@ using System;
 
 namespace MonoBrick.NXT
 {
-
     /// <summary>
     /// Error codes from the NXT brick
     /// </summary>
@@ -18,7 +17,6 @@ namespace MonoBrick.NXT
         InvalidChannel = 0xdf, ChannelBusy = 0xe0, NoActiveProgram = 0xec, IllegalSize = 0xed,
         InvalidMailboxQueue = 0xee, InvalidField = 0xef, BadIO = 0xf0, OutOfMemory = 0xfb, BadArguments = 0xff
     };
-
 
     /// <summary>
     /// Exceptions from NXT brick
@@ -269,17 +267,17 @@ namespace MonoBrick.NXT
         /// </param>
         internal static ErrorType ToErrorType(ref byte errorCode)
         {
-            BrickError brickError = (BrickError)errorCode;
+            var brickError = (BrickError)errorCode;
             if (Enum.IsDefined(typeof(BrickError), brickError))
             {
                 return ErrorType.Brick;
             }
-            TunnelError serverError = (TunnelError)errorCode;
+            var serverError = (TunnelError)errorCode;
             if (Enum.IsDefined(typeof(TunnelError), serverError))
             {
                 return ErrorType.Tunnel;
             }
-            ConnectionError connectionError = (ConnectionError)errorCode;
+            var connectionError = (ConnectionError)errorCode;
             if (Enum.IsDefined(typeof(ConnectionError), connectionError))
             {
                 return ErrorType.Connection;

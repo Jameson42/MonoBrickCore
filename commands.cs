@@ -1,6 +1,7 @@
 using System;
 using System.Text;
 using System.Collections.Generic;
+
 namespace MonoBrick
 {
     /// <summary>
@@ -11,7 +12,7 @@ namespace MonoBrick
         /// <summary>
         /// A list that holds the data bytes of the command
         /// </summary>
-        protected List<byte> dataArr = new List<byte>();
+        protected List<byte> dataBytes = new List<byte>();
 
         /// <summary>
         /// Does the command require a reply
@@ -19,32 +20,20 @@ namespace MonoBrick
         protected bool replyRequired;
 
         /// <summary>
-        /// Append a bool value
+        /// Append a boolean value
         /// </summary>
-        /// <param name='b'>
-        /// The bool value to append
-        /// </param>
-        public void Append(bool b)
-        {
-            if (b)
-                dataArr.Add(0x01);
-            else
-                dataArr.Add(0x00);
-        }
+        public void Append(bool value) => Append(value ? (byte)0x01 : (byte)0x00);
 
         /// <summary>
         /// Append a string
         /// </summary>
-        /// <param name='s'>
-        /// The string to append
-        /// </param>
-        public void Append(String s)
+        public void Append(string value)
         {
-            for (int i = 0; i < s.Length; i++)
+            for (int i = 0; i < value?.Length; i++)
             {
-                dataArr.Add((byte)(s[i]));
+                Append((byte)value[i]);
             }
-            dataArr.Add(0x00);
+            Append(0x00);
         }
 
         /*public void Append(String s , int maxSize){
@@ -54,186 +43,135 @@ namespace MonoBrick
         /// <summary>
         /// Append a string
         /// </summary>
-        /// <param name='s'>
-        /// The string to append
-        /// </param>
-        /// <param name='maxSize'>
-        /// The maximum size to append
-        /// </param>
         /// <param name='padWithZero'>
         /// If set to <c>true</c> and string length is less that maxsize the remaining bytes will be padded with zeros
         /// If set to <c>false</c> and string length is less that maxsize no padding will be added
         /// </param>
-        public void Append(String s, int maxSize, bool padWithZero)
+        public void Append(string value, int maxSize, bool padWithZero)
         {
-            if (s.Length > maxSize)
-                s.Remove(maxSize);
-            if (padWithZero && !(s.Length == maxSize))
+            if (value?.Length > maxSize)
+                value = value.Remove(maxSize);
+            if (padWithZero && !(value?.Length == maxSize))
             {
-                s += new string((char)0, maxSize - s.Length);
+                value += new string((char)0, maxSize - (value?.Length ?? 0));
             }
-            Append(s);
+            Append(value);
         }
 
         /// <summary>
         /// Append a byte
         /// </summary>
-        /// <param name='b'>
-        /// The byte value to append
-        /// </param>
-        public void Append(byte b)
-        {
-            dataArr.Add(b);
-        }
+        public void Append(byte value) => dataBytes.Add(value);
 
         /// <summary>
         /// Append a signed byte
         /// </summary>
-        /// <param name='b'>
-        /// The signed byte to append
-        /// </param>
-        public void Append(sbyte b)
-        {
-            Append((byte)b);
-        }
+        public void Append(sbyte value) => Append((byte)value);
 
         /// <summary>
         /// Append a UInt16
         /// </summary>
-        /// <param name='data'>
-        /// The UInt16 to append
-        /// </param>
-        public void Append(ushort data)
+        public void Append(ushort value)
         {
-            Append(BitConverter.GetBytes(data));
+            Append(BitConverter.GetBytes(value));
         }
 
         /// <summary>
         /// Append a Int16
         /// </summary>
-        /// <param name='data'>
-        /// The Int16 to append
-        /// </param>
-        public void Append(short data)
+        public void Append(short value)
         {
-            Append(BitConverter.GetBytes(data));
+            Append(BitConverter.GetBytes(value));
         }
 
         /// <summary>
         /// Append a UInt32
         /// </summary>
-        /// <param name='data'>
-        /// The UInt32 to append
-        /// </param>
-        public void Append(uint data)
+        public void Append(uint value)
         {
-            Append(BitConverter.GetBytes(data));
+            Append(BitConverter.GetBytes(value));
         }
 
         /// <summary>
         /// Append a Int32
         /// </summary>
-        /// <param name='data'>
-        /// The Int32 to append
-        /// </param>
-        public void Append(int data)
+        public void Append(int value)
         {
-            Append(BitConverter.GetBytes(data));
+            Append(BitConverter.GetBytes(value));
         }
 
         /// <summary>
         /// Append a float
         /// </summary>
-        /// <param name='data'>
-        /// The float to append
-        /// </param>
-        public void Append(float data)
+        public void Append(float value)
         {
-            Append(BitConverter.GetBytes(data));
+            Append(BitConverter.GetBytes(value));
         }
 
         /// <summary>
         /// Append a byte array
         /// </summary>
-        /// <param name='data'>
-        /// The array to append
-        /// </param>
-        public void Append(byte[] data)
+        public void Append(byte[] value)
         {
-            Append(data, 0, data.Length);
+            Append(value, 0, value.Length);
         }
 
         /// <summary>
         /// Append a byte array
         /// </summary>
-        /// <param name='data'>
-        /// The array to append
-        /// </param>
         /// <param name='offset'>
         /// The byte array offset
         /// </param>
-        public void Append(byte[] data, int offset)
+        public void Append(byte[] value, int offset)
         {
-            Append(data, offset, data.Length);
+            Append(value, offset, value.Length);
         }
 
         /// <summary>
         /// Append a byte array
         /// </summary>
-        /// <param name='data'>
-        /// The array to append
-        /// </param>
         /// <param name='offset'>
         /// The byte array offset
         /// </param>
         /// <param name='length'>
         /// The length to append
         /// </param>
-        public void Append(byte[] data, int offset, int length)
+        public void Append(byte[] value, int offset, int length)
         {
             for (int i = 0; i < length; i++)
             {
-                dataArr.Add(data[i + offset]);
+                Append(value[i + offset]);
             }
         }
 
         /// <summary>
         /// Appends zeros 
         /// </summary>
-        /// <param name='zeros'>
-        /// Number of zeros to append
-        /// </param>
-        public void AppendZeros(int zeros)
+        public void AppendZeros(int numberOfZeros)
         {
-            for (int i = 0; i < zeros; i++)
+            for (int i = 0; i < numberOfZeros; i++)
             {
-                dataArr.Add(0);
+                Append(0);
             }
         }
 
         /// <summary>
-        /// Gets a value indicating whether a reply is required.
+        /// A value indicating whether a reply is required.
         /// </summary>
-        /// <value>
-        /// <c>true</c> if reply required; otherwise, <c>false</c>.
-        /// </value>
         public bool ReplyRequired => replyRequired;
 
         /// <summary>
-        /// Gets byte array of the command
+        /// Byte array of the command
         /// </summary>
         /// <value>
         /// The command data
         /// </value>
-        public byte[] Data => dataArr.ToArray();
+        public byte[] Data => dataBytes.ToArray();
 
         /// <summary>
-        /// Gets the length of the command
+        /// Length of the command
         /// </summary>
-        /// <value>
-        /// The length of the command
-        /// </value>
-        public int Length => dataArr.Count;
+        public int Length => dataBytes.Count;
 
         internal static string AddSpacesToString(string text)
         {
@@ -266,42 +204,29 @@ namespace MonoBrick
         /// <summary>
         /// Set the payload data of the reply
         /// </summary>
-        /// <param name="data">Data.</param>
         public void SetData(byte[] data)
         {
             dataArray = data;
         }
 
         /// <summary>
-        /// Gets the length
+        /// The length
         /// </summary>
-        /// <value>
-        /// The length of 
-        /// </value>
         public int Length => dataArray.Length;
 
         /// <summary>
-        /// Gets the data byte at i.
+        /// The data byte at i.
         /// </summary>
-        /// <param name='i'>
-        /// The index of the byte
-        /// </param>
-        public byte this[int i] => dataArray[i];
+        public byte this[int index] => dataArray[index];
 
         /// <summary>
         /// Read the data of the reply
         /// </summary>
-        /// <value>
-        /// The byte array containing data
-        /// </value>
         public byte[] Data => (byte[])dataArray.Clone();
 
         /// <summary>
         /// Read a string
         /// </summary>
-        /// <returns>
-        /// A string 
-        /// </returns>
         /// <param name='offset'>
         /// Where to start reading
         /// </param>
@@ -322,9 +247,6 @@ namespace MonoBrick
         /// <summary>
         /// Read a string
         /// </summary>
-        /// <returns>
-        /// A string
-        /// </returns>
         /// <param name='offset'>
         /// Where to start reading
         /// </param>
@@ -339,9 +261,6 @@ namespace MonoBrick
         /// <summary>
         /// Gets raw command bytes
         /// </summary>
-        /// <returns>
-        /// The raw bytes that make up the command
-        /// </returns>
         /// <param name='offset'>
         /// Offset 
         /// </param>
@@ -363,9 +282,6 @@ namespace MonoBrick
         /// <summary>
         /// Read a signed byte 
         /// </summary>
-        /// <returns>
-        /// A signed byte
-        /// </returns>
         /// <param name='offset'>
         /// Where to start reading
         /// </param>
@@ -377,9 +293,6 @@ namespace MonoBrick
         /// <summary>
         /// Read a byte
         /// </summary>
-        /// <returns>
-        /// The byte.
-        /// </returns>
         /// <param name='offset'>
         /// Where to start reading
         /// </param>
@@ -391,9 +304,6 @@ namespace MonoBrick
         /// <summary>
         /// Read a UInt16
         /// </summary>
-        /// <returns>
-        /// A UInt16
-        /// </returns>
         /// <param name='offset'>
         /// Where to start reading
         /// </param>
@@ -405,9 +315,6 @@ namespace MonoBrick
         /// <summary>
         /// Read a Int16
         /// </summary>
-        /// <returns>
-        /// A Int16
-        /// </returns>
         /// <param name='offset'>
         /// Where to start reading
         /// </param>
@@ -419,9 +326,6 @@ namespace MonoBrick
         /// <summary>
         /// Read a UInt32
         /// </summary>
-        /// <returns>
-        /// A UInt32
-        /// </returns>
         /// <param name='offset'>
         /// Where to start reading
         /// </param>
@@ -433,9 +337,6 @@ namespace MonoBrick
         /// <summary>
         /// Read a Int32
         /// </summary>
-        /// <returns>
-        /// A Int32
-        /// </returns>
         /// <param name='offset'>
         /// Where to start reading
         /// </param>
@@ -447,9 +348,6 @@ namespace MonoBrick
         /// <summary>
         /// Read a float
         /// </summary>
-        /// <returns>
-        /// A float
-        /// </returns>
         /// <param name='offset'>
         /// Where to start reading
         /// </param>
@@ -457,7 +355,5 @@ namespace MonoBrick
         {
             return BitConverter.ToSingle(dataArray, offset);
         }
-
     }
-
 }

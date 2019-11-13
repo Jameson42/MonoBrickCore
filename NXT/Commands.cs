@@ -59,38 +59,29 @@ namespace MonoBrick.NXT
         /// <summary>
         /// Initializes a new instance of the <see cref="Command"/> class.
         /// </summary>
-        /// <param name='type'>
-        /// The command type. Can be a system command, direct command or reply command
-        /// </param>
-        /// <param name='commandByte'>
-        /// The command byte
-        /// </param>
         /// <param name='reply'>
         /// If set to <c>true</c> the NXT will send a reply
         /// </param>
-        public Command(CommandType type, CommandByte commandByte, bool reply)
+        public Command(CommandType commandType, CommandByte commandByte, bool reply)
         {
-            CommandType = type;
+            CommandType = commandType;
             CommandByte = commandByte;
             if (reply)
             {
                 replyRequired = true;
-                dataArr.Add((byte)type);
+                dataBytes.Add((byte)commandType);
             }
             else
             {
                 replyRequired = false;
-                dataArr.Add((byte)((byte)type | 0x80));
+                dataBytes.Add((byte)((byte)commandType | 0x80));
             }
-            dataArr.Add((byte)commandByte);
+            dataBytes.Add((byte)commandByte);
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Command"/> class using an array of bytes
         /// </summary>
-        /// <param name='data'>
-        /// The data to be used for the command
-        /// </param>
         public Command(byte[] data)
         {
             if (data.Length < 2)
@@ -98,7 +89,7 @@ namespace MonoBrick.NXT
                 throw new ArgumentException("Invalid NXT Command");
             }
             for (int i = 0; i < data.Length; i++)
-                dataArr.Add(data[i]);
+                dataBytes.Add(data[i]);
             try
             {
                 CommandType = (CommandType)(data[0] & 0x7f);
@@ -115,25 +106,16 @@ namespace MonoBrick.NXT
         /// <summary>
         /// Gets the command byte 
         /// </summary>
-        /// <value>
-        /// The command byte
-        /// </value>
         public CommandByte CommandByte { get; }
 
         /// <summary>
         /// Gets type of the command
         /// </summary>
-        /// <value>
-        /// The command type. Can be a system command, direct command or reply command
-        /// </value>
         public CommandType CommandType { get; }
 
         /// <summary>
         /// Gets the command byte as string.
         /// </summary>
-        /// <value>
-        /// The command byte as string.
-        /// </value>
         public string CommandByteAsString => AddSpacesToString(CommandByte.ToString());
 
         internal void Print()
@@ -166,17 +148,11 @@ namespace MonoBrick.NXT
         /// <summary>
         /// Gets the type of error.
         /// </summary>
-        /// <value>
-        /// The type of error
-        /// </value>
         internal ErrorType ErrorType => Error.ToErrorType(ref dataArray[2]);
 
         /// <summary>
         /// Gets the error code.
         /// </summary>
-        /// <value>
-        /// The error code
-        /// </value>
         public byte ErrorCode => dataArray[2];
 
         /// <summary>
@@ -213,26 +189,20 @@ namespace MonoBrick.NXT
         /// <summary>
         /// Initializes a new instance of the <see cref="Reply"/> class.
         /// </summary>
-        /// <param name='type'>
-        /// The command type. Can be a system command, direct command or reply command
-        /// </param>
-        /// <param name='command'>
-        /// The command byte
-        /// </param>
         /// <param name='data'>
         /// Byte array to be used for reply payload
         /// </param>
         /// <param name='errorCode'>
         /// Error code
         /// </param>
-        public Reply(CommandType type, CommandByte command, byte[] data, byte errorCode)
+        public Reply(CommandType commandType, CommandByte commandByte, byte[] data, byte errorCode)
         {
             if (data != null)
                 dataArray = new byte[data.Length + 3];
             else
                 dataArray = new byte[3];
-            dataArray[0] = (byte)type;
-            dataArray[1] = (byte)command;
+            dataArray[0] = (byte)commandType;
+            dataArray[1] = (byte)commandByte;
             dataArray[2] = errorCode;
             if (data != null)
             {
@@ -246,16 +216,16 @@ namespace MonoBrick.NXT
         /// <summary>
         /// Initializes a new instance of the <see cref="Reply"/> class without errors
         /// </summary>
-        /// <param name='type'>
+        /// <param name='commandType'>
         /// The command type. Can be a system command, direct command or reply command
         /// </param>
-        /// <param name='command'>
+        /// <param name='commandByte'>
         /// The command byte
         /// </param>
         /// <param name='data'>
         /// Byte array to be used for reply payload
         /// </param>
-        public Reply(CommandType type, CommandByte command, byte[] data) : this(type, command, data, 0)
+        public Reply(CommandType commandType, CommandByte commandByte, byte[] data) : this(commandType, commandByte, data, 0)
         {
 
         }
@@ -263,13 +233,7 @@ namespace MonoBrick.NXT
         /// <summary>
         /// Initializes a new instance of the <see cref="Reply"/> class without payload and errors
         /// </summary>
-        /// <param name='type'>
-        /// The command type. Can be a system command, direct command or reply command
-        /// </param>
-        /// <param name='command'>
-        /// The command byte
-        /// </param>
-        public Reply(CommandType type, CommandByte command) : this(type, command, null, 0)
+        public Reply(CommandType commandType, CommandByte commandByte) : this(commandType, commandByte, null, 0)
         {
 
         }
@@ -277,16 +241,10 @@ namespace MonoBrick.NXT
         /// <summary>
         /// Initializes a new instance of the <see cref="Reply"/> class without payload with an error code
         /// </summary>
-        /// <param name='type'>
-        /// The command type. Can be a system command, direct command or reply command
-        /// </param>
-        /// <param name='command'>
-        /// The command byte
-        /// </param>
         /// <param name='errorCode'>
         /// Error code
         /// </param>
-        public Reply(CommandType type, CommandByte command, byte errorCode) : this(type, command, null, errorCode)
+        public Reply(CommandType commandType, CommandByte commandByte, byte errorCode) : this(commandType, commandByte, null, errorCode)
         {
 
         }
@@ -294,29 +252,17 @@ namespace MonoBrick.NXT
         /// <summary>
         /// Gets the command byte.
         /// </summary>
-        /// <value>
-        /// The command byte
-        /// </value>
         public CommandByte CommandByte { get { return (CommandByte)dataArray[1]; } }
 
         /// <summary>
         /// Gets the command byte as string.
         /// </summary>
-        /// <value>
-        /// The command byte as string
-        /// </value>
-        public string CommandByteAsString
-        {
-            get { return BrickCommand.AddSpacesToString(CommandByte.ToString()); }
-        }
+        public string CommandByteAsString => BrickCommand.AddSpacesToString(CommandByte.ToString());
 
         /// <summary>
         /// The command type. Can be a system command, direct command or reply command
         /// </summary>
-        /// <value>
-        /// The type of the command.
-        /// </value>
-        public CommandType CommandType { get { return (CommandType)dataArray[0]; } }
+        public CommandType CommandType => (CommandType)dataArray[0];
 
         internal void Print()
         {
@@ -327,9 +273,6 @@ namespace MonoBrick.NXT
             {
                 Console.WriteLine("Reply[" + i + "]: " + dataArray[i].ToString("X"));
             }
-
         }
     }
-
 }
-

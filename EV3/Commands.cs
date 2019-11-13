@@ -26,7 +26,7 @@ namespace MonoBrick.EV3
     /// Encoded Parameter sign when using short constant format
     /// </summary>
     [Flags]
-    enum ShortSign : byte
+    internal enum ShortSign : byte
     {
         Positive = 0x00,
         Negative = 0x20
@@ -67,7 +67,7 @@ namespace MonoBrick.EV3
     /// Encoded Parameter following when using long format
     /// </summary>
     [Flags]
-    enum FollowType : byte
+    internal enum FollowType : byte
     {
         OneByte = 0x01,
         TwoBytes = 0x02,
@@ -85,27 +85,22 @@ namespace MonoBrick.EV3
         /// Program slot reserved for executing the user interface
         /// </summary>
         Gui = 0,
-
         /// <summary>
         /// Program slot used to execute user projects, apps and tools
         /// </summary>
         User = 1,
-
         /// <summary>
         /// Program slot used for direct commands coming from c_com
         /// </summary>
         Cmd = 2,
-
         /// <summary>
         /// Program slot used for direct commands coming from c_ui
         /// </summary>
         Term = 3,
-
         /// <summary>
         /// Program slot used to run the debug ui
         /// </summary>
         Debug = 4,
-
         /// <summary>
         /// ONLY VALID IN opPROGRAM_STOP
         /// </summary>
@@ -121,59 +116,30 @@ namespace MonoBrick.EV3
         /// The EV3
         /// </summary>
         EV3 = 0,
-
         /// <summary>
         /// First EV3 in the Daisychain
         /// </summary>
         First = 1,
-
         /// <summary>
         /// Second EV3 in the Daisychain
         /// </summary>
         Second = 2,
-
         /// <summary>
         /// Third EV3 in the Daisychain
         /// </summary>
         Third = 3,
     }
 
-
-
-
     /// <summary>
     /// EV3 command type.
     /// </summary>
     public enum CommandType : byte
     {
-        /// <summary>
-        /// Direct command
-        /// </summary>
         DirectCommand = 0x00,
-
-        /// <summary>
-        /// System command.
-        /// </summary>
         SystemCommand = 0x01,
-
-        /// <summary>
-        /// Direct command reply.
-        /// </summary>
         DirectReply = 0x02,
-
-        /// <summary>
-        /// System command reply.
-        /// </summary>
         SystemReply = 0x03,
-
-        /// <summary>
-        /// Direct reply with error.
-        /// </summary>
         DirectReplyWithError = 0x04,
-
-        /// <summary>
-        /// System reply with error.
-        /// </summary>
         SystemReplyWithError = 0x05
     }
 
@@ -395,7 +361,6 @@ namespace MonoBrick.EV3
         /// <summary>
         /// Initializes a new instance of the <see cref="Command"/> class.
         /// </summary>
-        /// <param name="data">Data.</param>
         public Command(byte[] data)
         {
             if (data.Length < 4)
@@ -404,9 +369,9 @@ namespace MonoBrick.EV3
             }
             for (int i = 0; i < data.Length; i++)
             {
-                dataArr.Add(data[i]);
+                dataBytes.Add(data[i]);
             }
-            SequenceNumber = (ushort)(0x0000 | dataArr[0] | (dataArr[1] << 2));
+            SequenceNumber = (ushort)(0x0000 | dataBytes[0] | (dataBytes[1] << 2));
             try
             {
                 CommandType = (CommandType)(data[2] & 0x7f);
@@ -430,8 +395,6 @@ namespace MonoBrick.EV3
         /// <summary>
         /// Initializes a new instance of the <see cref="Command"/> class as a system command
         /// </summary>
-        /// <param name="systemCommand">System command.</param>
-        /// <param name="sequenceNumber">Sequence number.</param>
         /// <param name="reply">If set to <c>true</c> reply will be send from brick</param>
         public Command(SystemCommand systemCommand, ushort sequenceNumber, bool reply)
         {
@@ -443,23 +406,22 @@ namespace MonoBrick.EV3
             if (reply)
             {
                 replyRequired = true;
-                dataArr.Add((byte)CommandType);
+                dataBytes.Add((byte)CommandType);
             }
             else
             {
                 replyRequired = false;
-                dataArr.Add((byte)((byte)CommandType | 0x80));
+                dataBytes.Add((byte)((byte)CommandType | 0x80));
             }
-            dataArr.Add((byte)systemCommand);
+            dataBytes.Add((byte)systemCommand);
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Command"/> class as a direct command
         /// </summary>
         /// <param name="byteCode">Bytecode to use for the direct command</param>
-        /// <param name="globalVariables">Global variables.</param>
-        /// <param name="localVariables">Number of global variables</param>
-        /// <param name="sequenceNumber">Number of local variables</param>
+        /// <param name="globalVariables">Number of global variables</param>
+        /// <param name="localVariables">Number of local variables</param>
         /// <param name="reply">If set to <c>true</c> reply will be send from the brick</param>
         public Command(ByteCodes byteCode, int globalVariables, int localVariables, ushort sequenceNumber, bool reply) : this(globalVariables, localVariables, sequenceNumber, reply)
         {
@@ -471,8 +433,7 @@ namespace MonoBrick.EV3
         /// Initializes a new instance of the <see cref="Command"/> as a direct command
         /// </summary>
         /// <param name="globalVariables">Global bytes.</param>
-        /// <param name="localVariables">Number of global variables</param>
-        /// <param name="sequenceNumber">Number of local variables</param>
+        /// <param name="localVariables">Number of local variables</param>
         /// <param name="reply">If set to <c>true</c> reply will be send from brick</param>
         public Command(int globalVariables, int localVariables, ushort sequenceNumber, bool reply)
         {
@@ -483,12 +444,12 @@ namespace MonoBrick.EV3
             if (reply)
             {
                 replyRequired = true;
-                dataArr.Add((byte)CommandType);
+                dataBytes.Add((byte)CommandType);
             }
             else
             {
                 replyRequired = false;
-                dataArr.Add((byte)((byte)CommandType | 0x80));
+                dataBytes.Add((byte)((byte)CommandType | 0x80));
             }
             byte firstByte = (byte)(globalVariables & 0xFF);
             byte secondByte = (byte)((localVariables << 2) | (globalVariables >> 8));
@@ -499,42 +460,36 @@ namespace MonoBrick.EV3
         /// <summary>
         /// Gets the EV3 system command.
         /// </summary>
-        /// <value>The system command.</value>
         public SystemCommand SystemCommandType { get; }
         /// <summary>
         /// Gets the EV3 command type
         /// </summary>
-        /// <value>The type of the command.</value>
         public CommandType CommandType { get; }
 
         /// <summary>
         /// Gets the sequence number
         /// </summary>
-        /// <value>The sequence number.</value>
         public ushort SequenceNumber { get; }
 
         /// <summary>
         /// Append a sensor type value
         /// </summary>
-        /// <param name="type">Sensor type to append</param>
-        public void Append(SensorType type)
+        public void Append(SensorType sensorType)
         {
-            Append((byte)type, ParameterFormat.Short);
+            Append((byte)sensorType, ParameterFormat.Short);
         }
 
         /// <summary>
         /// Append a sensor mode value
         /// </summary>
-        /// <param name="mode">Sensor mode to append</param>
-        public void Append(SensorMode mode)
+        public void Append(SensorMode sensorMode)
         {
-            Append((byte)mode, ParameterFormat.Short);
+            Append((byte)sensorMode, ParameterFormat.Short);
         }
 
         /// <summary>
         /// Append a byte code value
         /// </summary>
-        /// <param name="byteCode">Byte code to append</param>
         public void Append(ByteCodes byteCode)
         {
             Append((byte)byteCode);
@@ -543,80 +498,71 @@ namespace MonoBrick.EV3
         /// <summary>
         /// Append a file sub code
         /// </summary>
-        /// <param name="code">Code to append.</param>
-        public void Append(FileSubCodes code)
+        public void Append(FileSubCodes fileSubCode)
         {
-            Append((sbyte)code, ParameterFormat.Short);
+            Append((sbyte)fileSubCode, ParameterFormat.Short);
         }
 
         /// <summary>
         /// Append a file sub code
         /// </summary>
-        /// <param name="code">Code to append.</param>
-        public void Append(SoundSubCodes code)
+        public void Append(SoundSubCodes soundSubCode)
         {
-            Append((sbyte)code, ParameterFormat.Short);
+            Append((sbyte)soundSubCode, ParameterFormat.Short);
         }
 
         /// <summary>
         /// Append a daisy chain layer 
         /// </summary>
-        /// <param name="chain">Daisy chain layer to append</param>
-        public void Append(DaisyChainLayer chain)
+        public void Append(DaisyChainLayer daisyChainLayer)
         {
-            Append((sbyte)chain, ParameterFormat.Short);
+            Append((sbyte)daisyChainLayer, ParameterFormat.Short);
         }
 
         /// <summary>
         /// Append a input sub code
         /// </summary>
-        /// <param name="subCode">Sub code to append</param>
-        public void Append(InputSubCodes subCode)
+        public void Append(InputSubCodes inputSubCode)
         {
-            Append((sbyte)subCode, ParameterFormat.Short);
+            Append((sbyte)inputSubCode, ParameterFormat.Short);
         }
 
         /// <summary>
         /// Append a memory sub code
         /// </summary>
-        /// <param name="subCode">Sub code to append</param>
-        public void Append(MemorySubCodes subCode)
+        public void Append(MemorySubCodes memorySubCode)
         {
-            Append((sbyte)subCode, ParameterFormat.Short);
+            Append((sbyte)memorySubCode, ParameterFormat.Short);
         }
 
         /// <summary>
         /// Append a sensor port
         /// </summary>
-        /// <param name="port">Sensor port to append</param>
-        public void Append(SensorPort port)
+        public void Append(SensorPort sensorPort)
         {
-            Append((sbyte)port, ParameterFormat.Short);
+            Append((sbyte)sensorPort, ParameterFormat.Short);
         }
 
         /// <summary>
         /// Append a motor port
         /// </summary>
-        /// <param name="port">Motor port to append</param>
-        public void Append(MotorPort port)
+        public void Append(MotorPort motorPort)
         {
-            Append((sbyte)port, ParameterFormat.Short);
+            Append((sbyte)motorPort, ParameterFormat.Short);
         }
 
         /// <summary>
         /// Append a output bit field
         /// </summary>
-        /// <param name="bitField">Bit field to append</param>
-        public void Append(OutputBitfield bitField)
+        public void Append(OutputBitfield outputBitField)
         {
-            Append((sbyte)bitField, ParameterFormat.Short);
+            Append((sbyte)outputBitField, ParameterFormat.Short);
         }
 
 
         /// <summary>
         /// Append a constant parameter encoded byte in either short or long format. Note that if format is long parameter constant type will be a value
         /// </summary>
-        /// <param name="value">Value to append</param>
         /// <param name="format">Use either short or long format</param>
         public void Append(byte value, ParameterFormat format)
         {
@@ -640,7 +586,6 @@ namespace MonoBrick.EV3
         /// <summary>
         /// Append a constant parameter encoded byte in either short or long format. Note that if format is long parameter constant type will be a value
         /// </summary>
-        /// <param name="value">Value to append</param>
         /// <param name="format">Use either short or long format</param>
         public void Append(sbyte value, ParameterFormat format)
         {
@@ -653,7 +598,7 @@ namespace MonoBrick.EV3
                     {
                         value = ShortValueMin;
                     }
-                    b = (byte)((byte)format | (byte)ParameterType.Constant | (byte)(value & ((byte)0x1f)));
+                    b = (byte)((byte)format | (byte)ParameterType.Constant | (byte)(value & 0x1f));
                     b = (byte)((byte)ShortSign.Negative | b);
                 }
                 else
@@ -662,7 +607,7 @@ namespace MonoBrick.EV3
                     {
                         value = ShortValueMax;
                     }
-                    b = (byte)((byte)format | (byte)ParameterType.Constant | (byte)(value & ((byte)0x1f)));
+                    b = (byte)((byte)format | (byte)ParameterType.Constant | (byte)(value & 0x1f));
                     b = (byte)((byte)ShortSign.Positive | b);
                 }
                 Append(b);
@@ -679,7 +624,6 @@ namespace MonoBrick.EV3
         /// <summary>
         /// Append a constant parameter encoded
         /// </summary>
-        /// <param name="value">byte to append</param>
         /// <param name="type">User either value or lable type</param>
         public void Append(sbyte value, ConstantParameterType type)
         {
@@ -691,7 +635,6 @@ namespace MonoBrick.EV3
         /// <summary>
         /// Append a constant parameter encoded
         /// </summary>
-        /// <param name="value">byte to append</param>
         /// <param name="type">User either value or lable type</param>
         public void Append(byte value, ConstantParameterType type)
         {
@@ -702,7 +645,6 @@ namespace MonoBrick.EV3
         /// <summary>
         /// Append a constant parameter encoded
         /// </summary>
-        /// <param name="value">Int16 to append</param>
         /// <param name="type">User either value or lable type</param>
         public void Append(short value, ConstantParameterType type)
         {
@@ -713,7 +655,6 @@ namespace MonoBrick.EV3
         /// <summary>
         /// Append a constant parameter encoded
         /// </summary>
-        /// <param name="value">Int32 to append</param>
         /// <param name="type">User either value or lable type</param>
         public void Append(int value, ConstantParameterType type)
         {
@@ -724,7 +665,6 @@ namespace MonoBrick.EV3
         /// <summary>
         /// Append a constant parameter encoded
         /// </summary>
-        /// <param name="value">uint to append</param>
         /// <param name="type">User either value or lable type</param>
         public void Append(uint value, ConstantParameterType type)
         {
@@ -735,7 +675,6 @@ namespace MonoBrick.EV3
         /// <summary>
         /// Append a constant parameter encoded
         /// </summary>
-        /// <param name="value">Float to append</param>
         /// <param name="type">User either value or lable type</param>
         public void Append(float value, ConstantParameterType type)
         {
@@ -748,18 +687,16 @@ namespace MonoBrick.EV3
         /// <summary>
         /// Append a constant parameter encoded
         /// </summary>
-        /// <param name="s">String to append</param>
         /// <param name="type">User either value or lable type</param>
-        public void Append(string s, ConstantParameterType type)
+        public void Append(string value, ConstantParameterType type)
         {
             Append(type, FollowType.TerminatedString2);
-            Append(s);
+            Append(value);
         }
 
         /// <summary>
         /// Append a variable parameter encoded byte in short format 
         /// </summary>
-        /// <param name="value">Value to append</param>
         /// <param name="scope">Select either global or local scope</param>
         public void Append(byte value, VariableScope scope)
         {
@@ -776,7 +713,6 @@ namespace MonoBrick.EV3
         /// <summary>
         /// Append a variable parameter encoded byte in long format 
         /// </summary>
-        /// <param name="value">Value to append</param>
         /// <param name="scope">Select either global or local scope</param>
         /// <param name="type">Select either value or handle scope</param>
         public void Append(byte value, VariableScope scope, VariableType type)
@@ -788,7 +724,6 @@ namespace MonoBrick.EV3
         /// <summary>
         /// Append a variable parameter encoded Int16
         /// </summary>
-        /// <param name="value">Value to append</param>
         /// <param name="scope">Select either global or local scope</param>
         /// <param name="type">Select either value or handle scope</param>
         public void Append(short value, VariableScope scope, VariableType type)
@@ -800,7 +735,6 @@ namespace MonoBrick.EV3
         /// <summary>
         /// Append a variable parameter encoded Int32
         /// </summary>
-        /// <param name="value">Value to append</param>
         /// <param name="scope">Select either global or local scope</param>
         /// <param name="type">Select either value or handle scope</param>
         public void Append(int value, VariableScope scope, VariableType type)
@@ -813,13 +747,12 @@ namespace MonoBrick.EV3
         /// <summary>
         /// Append a variable parameter encoded string
         /// </summary>
-        /// <param name="s">String to append</param>
         /// <param name="scope">Select either global or local scope</param>
         /// <param name="type">Select either value or handle scope</param>
-        public void Append(string s, VariableScope scope, VariableType type)
+        public void Append(string value, VariableScope scope, VariableType type)
         {
             Append(scope, type, FollowType.TerminatedString2);
-            Append(s);
+            Append(value);
         }
 
         /// <summary>

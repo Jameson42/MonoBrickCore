@@ -13,12 +13,10 @@ namespace MonoBrick.NXT
         /// File is fragmented
         /// </summary>
         Fragmented = CommandByte.OpenWrite,
-
         /// <summary>
         /// File is not fragmented
         /// </summary>
         NoneFragmented = CommandByte.OpenWriteLinear,
-
         /// <summary>
         /// The file can be closed before the whole file is written	
         /// </summary>
