@@ -385,7 +385,7 @@ namespace MonoBrick.EV3
         /// </summary>
         /// <param name="volume">Volume of the beep</param>
         /// <param name="durationMs">Duration in ms.</param>
-        public void Beep(byte volume, UInt16 durationMs)
+        public void Beep(byte volume, ushort durationMs)
         {
             Beep(volume, durationMs, false);
         }

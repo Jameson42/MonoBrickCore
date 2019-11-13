@@ -85,7 +85,7 @@ namespace MonoBrick.NXT
         /// <value>
         /// The tacho limit.
         /// </value>
-        public UInt32 TachoLimit { get; set; }//Current limit on a movement in progres, if any
+        public uint TachoLimit { get; set; }//Current limit on a movement in progres, if any
 
         /// <summary>
         /// Gets or sets the tacho count.
@@ -93,7 +93,7 @@ namespace MonoBrick.NXT
         /// <value>
         /// The tacho count.
         /// </value>
-        public Int32 TachoCount { get; internal set; }//Internal count. Number of counts since last reset of motor
+        public int TachoCount { get; internal set; }//Internal count. Number of counts since last reset of motor
 
         /// <summary>
         /// Gets or sets the block tacho count.
@@ -101,7 +101,7 @@ namespace MonoBrick.NXT
         /// <value>
         /// The block tacho count.
         /// </value>
-        public Int32 BlockTachoCount { get; internal set; } //Current position relative to last programmed movement
+        public int BlockTachoCount { get; internal set; } //Current position relative to last programmed movement
 
         /// <summary>
         /// Gets or sets the rotation count.
@@ -109,7 +109,7 @@ namespace MonoBrick.NXT
         /// <value>
         /// The rotation count.
         /// </value>
-        public Int32 RotationCount { get; internal set; } //Current position relative to last reset of the rotation sensor for this
+        public int RotationCount { get; internal set; } //Current position relative to last reset of the rotation sensor for this
     }
 
     /// <summary>
@@ -428,7 +428,7 @@ namespace MonoBrick.NXT
         /// <param name='position'>
         /// Absolute position
         /// </param>
-        public void MoveTo(byte speed, Int32 position)
+        public void MoveTo(byte speed, int position)
         {
             MoveTo(speed, position, false);
         }

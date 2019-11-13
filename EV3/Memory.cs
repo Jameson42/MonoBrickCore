@@ -43,7 +43,7 @@ namespace MonoBrick.EV3
             {
                 subcode = MemorySubCodes.Init8;
             }
-            if (typeof(TValue) == typeof(Int16))
+            if (typeof(TValue) == typeof(short))
             {
                 subcode = MemorySubCodes.Init16;
             }

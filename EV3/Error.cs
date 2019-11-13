@@ -177,7 +177,7 @@ namespace MonoBrick.EV3
         /// The reply to check
         /// </param>
         /// <param name="expectedSequenceNumber">Expected sequence number.</param>
-        public static void CheckForError(Reply reply, UInt16 expectedSequenceNumber)
+        public static void CheckForError(Reply reply, ushort expectedSequenceNumber)
         {
             CheckForError(reply, 0, expectedSequenceNumber, null, true);
         }
@@ -194,7 +194,7 @@ namespace MonoBrick.EV3
         /// <param name='expectedSequenceNumber'>
         /// Expected sequence number
         /// </param>
-        public static void CheckForError(Reply reply, int expectedLength, UInt16 expectedSequenceNumber)
+        public static void CheckForError(Reply reply, int expectedLength, ushort expectedSequenceNumber)
         {
             CheckForError(reply, expectedLength, expectedSequenceNumber, null, false);
         }
@@ -214,12 +214,12 @@ namespace MonoBrick.EV3
         /// <param name='cleanUp'>
         /// Clean up method called before the exception is thrown
         /// </param>
-        public static void CheckForError(Reply reply, int expectedLength, UInt16 expectedSequenceNumber, CleanUpMethod cleanUp)
+        public static void CheckForError(Reply reply, int expectedLength, ushort expectedSequenceNumber, CleanUpMethod cleanUp)
         {
             CheckForError(reply, expectedLength, expectedSequenceNumber, cleanUp, false);
         }
 
-        private static void CheckForError(Reply reply, int expectedLength, UInt16 expectedSequenceNumber, CleanUpMethod cleanUp, bool ignoreLength)
+        private static void CheckForError(Reply reply, int expectedLength, ushort expectedSequenceNumber, CleanUpMethod cleanUp, bool ignoreLength)
         {
             if (reply.HasError)
             {

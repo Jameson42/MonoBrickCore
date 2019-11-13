@@ -277,7 +277,7 @@ namespace MonoBrick.EV3
             int bytesToWrite = data.Length;
             try
             {
-                byte handle = BeginWrite((UInt32)data.Length, fileName);
+                byte handle = BeginWrite((uint)data.Length, fileName);
                 while (bytesWritten < bytesToWrite)
                 {
                     if ((bytesToWrite - bytesWritten) >= MaxBytesToWrite)
@@ -365,7 +365,7 @@ namespace MonoBrick.EV3
             return reply.GetData(5);
         }
 
-        private string ListFiles(string path, UInt16 length)
+        private string ListFiles(string path, ushort length)
         {
             var command = new Command(SystemCommand.ListFiles, 109, true);
             command.Append(length);

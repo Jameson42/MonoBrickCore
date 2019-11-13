@@ -149,7 +149,7 @@ namespace MonoBrick.NXT
     /// <summary>
     /// Fil system for the NXT brick
     /// </summary>
-    public class FilSystem
+    public class FileSystem
     {
         /// <summary>
         /// The max number of bytes for a file name.
@@ -357,7 +357,7 @@ namespace MonoBrick.NXT
                 }
                 else
                 {
-                    UInt32 bytesToRead = ((UInt32)file.Size - (UInt32)bytesRead);
+                    var bytesToRead = file.Size - (uint)bytesRead;
                     newData = Read(file, (ushort)bytesToRead);
                     Array.Copy(newData, 0, data, bytesRead, bytesToRead);
                     if (newData.Length != bytesToRead)

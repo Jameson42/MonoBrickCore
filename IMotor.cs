@@ -75,13 +75,13 @@ namespace MonoBrick
 		/// </param>
         void ResetTacho(bool reply);
 
-		/// <summary>
-		/// Gets the tacho count.
-		/// </summary>
-		/// <returns>
-		/// The tacho count
-		/// </returns>
-        Int32 GetTachoCount();
+        /// <summary>
+        /// Gets the tacho count.
+        /// </summary>
+        /// <returns>
+        /// The tacho count
+        /// </returns>
+        int GetTachoCount();
         
         /// <summary>
 		/// Determines whether this motor is running.

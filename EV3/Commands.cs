@@ -724,7 +724,7 @@ namespace MonoBrick.EV3
         /// <summary>
         /// Append a constant parameter encoded
         /// </summary>
-        /// <param name="value">UInt32 to append</param>
+        /// <param name="value">uint to append</param>
         /// <param name="type">User either value or lable type</param>
         public void Append(uint value, ConstantParameterType type)
         {

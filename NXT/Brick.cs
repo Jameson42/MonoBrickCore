@@ -239,7 +239,7 @@ namespace MonoBrick.NXT
         /// <value>
         /// The file system
         /// </value>
-        public FilSystem FileSystem { get; } = new FilSystem();
+        public FileSystem FileSystem { get; } = new FileSystem();
 
         /// <summary>
         /// Gets the connection that the brick uses
@@ -419,7 +419,7 @@ namespace MonoBrick.NXT
         public void StartProgram(string name, bool reply)
         {
             Command command = new Command(CommandType.DirectCommand, CommandByte.StartProgram, reply);
-            command.Append(name, FilSystem.MaxFileNameLength, true);
+            command.Append(name, FileSystem.MaxFileNameLength, true);
             Connection.Send(command);
             if (reply)
             {
@@ -560,7 +560,7 @@ namespace MonoBrick.NXT
         {
             Command command = new Command(CommandType.DirectCommand, CommandByte.PlaySoundFile, reply);
             command.Append(loop);
-            command.Append(name, FilSystem.MaxFileNameLength, true);
+            command.Append(name, FileSystem.MaxFileNameLength, true);
             Connection.Send(command);
             if (reply)
             {
@@ -619,7 +619,7 @@ namespace MonoBrick.NXT
         /// <returns>
         /// The time in minuts that the brick will stay alive
         /// </returns>
-        public Int32 KeepAlive()
+        public int KeepAlive()
         {
             var reply = Connection.SendAndReceive(new Command(CommandType.DirectCommand, CommandByte.KeepAlive, true));
             Error.CheckForError(reply, 7);
